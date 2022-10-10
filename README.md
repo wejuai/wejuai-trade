@@ -16,6 +16,7 @@
 - 两个`bootstrap.yml`都需要配置
 - gateway中需要在`resources`文件夹下放置微信支付中向用户转账的证书，文件名为`weixin.p12`
 - core中`HttpTraceActuatorConfig.java`的spring`actuator/httptrace`账号密码，错误的账号密码会在日志中记录访问ip
+- `build.gradle`中的github或者其他获得dto和entity以及工具包的仓库
 
 ## 运行
 gateway和sync需要分开独立运行
