@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        jcenter()
+    }
+}
+
+plugins {
+    id 'java-library'
+}
+
+subprojects {
+
+    apply plugin: 'java'
+
+    group = 'com.wejuai.trade'
+    version = '1.0.0'
+    sourceCompatibility = '1.8'
+
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        mavenLocal()
+        maven { url 'https://dl.bintray.com/endofmaster/maven' }
+        maven { url 'https://dl.bintray.com/wejuai/maven' }
+    }
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+}

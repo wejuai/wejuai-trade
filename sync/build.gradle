@@ -1,0 +1,52 @@
+import java.text.SimpleDateFormat
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'com.bmuschko.docker-remote-api' version '6.6.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8"
+    }
+}
+
+dependencies {
+    implementation project(':core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    runtimeOnly 'mysql:mysql-connector-java'
+}
+
+ext {
+    dockerImageName = 'registry.cn-beijing.aliyuncs.com/wzm/wejuai-trade-sync:' + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())
+}
+
+docker {
+    registryCredentials {
+        url = 'https://registry.cn-beijing.aliyuncs.com'
+        username = project.hasProperty('myDockerUser') ? project.property('myDockerUser') : '<myDockerUser>'
+        password = project.hasProperty('myDockerPassword') ? project.property('myDockerPassword') : '<myDockerPassword>'
+    }
+}
+
+task dockerBuild(type: DockerBuildImage, dependsOn: bootJar) {
+    copy {
+        from("src/main/docker/Dockerfile")
+        into("build/libs")
+    }
+    inputDir = file('build/libs')
+    images.add(dockerImageName)
+}
+
+task dockerPush(type: DockerPushImage, dependsOn: dockerBuild) {
+    images.add(dockerImageName)
+}

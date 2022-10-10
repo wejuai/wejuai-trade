@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%15.15t] %cyan(%-40.40logger{50}) : %highlight(%msg%n)
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%15.15t] %-40.40logger{50} : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily 配置日志所生成的目录以及生成文件名的规则 -->
+            <fileNamePattern>logs/mylog-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>64 MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- Safely log to the same file from multiple JVMs. Degrades performance! -->
+        <prudent>true</prudent>
+    </appender>
+
+<!--    <appender name="aliyun" class="com.aliyun.openservices.log.logback.LoghubAppender">-->
+<!--        &lt;!&ndash;必选项&ndash;&gt;-->
+<!--        &lt;!&ndash; 账号及网络配置 &ndash;&gt;-->
+<!--        <endpoint>cn-beijing-intranet.log.aliyuncs.com</endpoint>-->
+<!--        <accessKeyId>VAZSGZwX16yoLtbU</accessKeyId>-->
+<!--        <accessKeySecret>qi5jrXwQ7VYzgMD1BMSjBl0gFG9COo</accessKeySecret>-->
+
+<!--        &lt;!&ndash; sls 项目配置 &ndash;&gt;-->
+<!--        <project>wejuai</project>-->
+<!--        <logStore>accounts</logStore>-->
+<!--        &lt;!&ndash;必选项 (end)&ndash;&gt;-->
+
+<!--        &lt;!&ndash; 可选项 通过配置 encoder 的 pattern 自定义 log 的格式 &ndash;&gt;-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%15.15t] %-40.40logger{50} : %msg%n</pattern>-->
+<!--        </encoder>-->
+
+<!--        &lt;!&ndash; 可选项 设置 time 字段呈现的格式 &ndash;&gt;-->
+<!--        <timeFormat>yyyy-MM-dd HH:mm:ss.SSS</timeFormat>-->
+<!--        &lt;!&ndash; 可选项 设置 time 字段呈现的时区 &ndash;&gt;-->
+<!--        <timeZone>UTC</timeZone>-->
+
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>DEBUG</level>-->
+<!--        </filter>-->
+<!--    </appender>-->
+
+
+    <logger name="com.wejuai" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG_FILE"/>
+<!--        <appender-ref ref="aliyun"/>-->
+    </logger>
+    <logger name="com.endofmaster" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG_FILE"/>
+<!--        <appender-ref ref="aliyun"/>-->
+    </logger>
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG_FILE"/>
+<!--        <appender-ref ref="aliyun"/>-->
+    </logger>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG_FILE"/>
+<!--        <appender-ref ref="aliyun"/>-->
+    </logger>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG_FILE"/>
+<!--        <appender-ref ref="aliyun"/>-->
+    </root>
+</configuration>

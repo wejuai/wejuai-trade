@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+}
+
+jar.enabled(true)
+bootJar.enabled(false)
+
+dependencies {
+    api 'com.endofmaster:commons-utils:1.0.6'
+    api 'com.endofmaster:commons-java-sdk-alipay:1.0.3'
+    api 'com.endofmaster:commons-id:1.0.2'
+    api 'com.endofmaster:commons-weixin:1.0.2'
+
+    api 'com.wejuai:wejuai-entity:1.0.7'
+    api 'com.wejuai:wejuai-dto:1.0.2'
+
+    api 'com.aliyun.mns:aliyun-sdk-mns:1.1.8'
+
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.boot:spring-boot-starter-actuator'
+}

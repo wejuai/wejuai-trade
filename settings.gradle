@@ -1,0 +1,4 @@
+rootProject.name = "wejuai-trade"
+include 'core'
+include 'gateway'
+include 'sync'
